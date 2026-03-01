@@ -302,3 +302,110 @@ nav#navbar a.button.disabled {
     height: 18px;
     display: block;
 }
+
+/* ── Toolbar (search + sort + export) ─────────────────── */
+#toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+body.delete-mode #toolbar {
+    display: none;
+}
+
+#search-input {
+    flex: 1;
+    min-width: 0;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 6px 10px;
+    background: transparent;
+    border: 2px solid var(--color-subtle-gray);
+    color: var(--color-foreground);
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#search-input:focus {
+    border-color: var(--color-foreground);
+}
+
+#search-input::placeholder {
+    color: var(--color-gray);
+}
+
+/* Remove the native × clear button on webkit */
+#search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+#sort-toggle {
+    white-space: nowrap;
+    font-size: 13px;
+    padding: 6px 10px;
+    border: 2px solid var(--color-subtle-gray);
+    border-radius: 4px;
+    height: 36px;
+    transition: border-color 0.2s;
+}
+
+#sort-toggle:hover {
+    border-color: var(--color-foreground);
+}
+
+/* ── No-results message ────────────────────────────────── */
+#no-results {
+    font-size: 14px;
+    color: var(--color-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0;
+}
+
+#no-results.hidden {
+    display: none;
+}
+
+/* ── Copy-HTML button (per card) ───────────────────────── */
+.stolen-button {
+    position: relative;
+}
+
+.copy-code-btn {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+    border: none;
+    background: var(--color-background);
+    color: var(--color-foreground);
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+    pointer-events: none;
+}
+
+.copy-code-btn svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+}
+
+.stolen-button:hover .copy-code-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.copy-code-btn.copied {
+    color: oklch(0.56 0.18 142);
+}

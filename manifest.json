@@ -1,6 +1,6 @@
 {
-  "name": "Button Stealer",
-  "description": "Steals buttons from the websites you visit. Do your usual online stuff and watch the collection of stolen buttons grow.",
+  "name": "Button Yoinker",
+  "description": "Yoinks buttons from the websites you visit. Do your usual online stuff and watch the collection of stolen buttons grow.",
   "version": "1.0.5",
   "manifest_version": 3,
   "action": {
@@ -17,7 +17,7 @@
     "128": "images/icon-light-128.png"
   },
   "permissions": [
-    "storage", "offscreen"
+    "storage", "offscreen", "contextMenus"
   ],
   "background": {
     "service_worker": "scripts/service-worker.js",

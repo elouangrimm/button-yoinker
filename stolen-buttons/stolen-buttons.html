@@ -26,12 +26,23 @@
             <a class="button critical disabled delete-only" type="button" id="delete" disabled>Remove</a>
             <a class="button delete-only" type="button" id="exit-mode">Exit</a>
             <button class="mode-button mode-button-icon" type="button" id="theme-toggle" data-mode="system" aria-label="Theme mode: system"></button>
-            <button class="mode-button mode-button-icon" type="button" id="donate-button" aria-label="Donate">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,224S24,168,24,102A54,54,0,0,1,78,48c22.59,0,41.94,12.31,50,32,8.06-19.69,27.41-32,50-32a54,54,0,0,1,54,54C232,168,128,224,128,224Z" fill="none" stroke="currentColor" stroke-width="16"/></svg>
-            </button>
         </div>
     </nav>
+    <div id="toolbar">
+        <input id="search-input" type="search" placeholder="Search buttons…" autocomplete="off" spellcheck="false" aria-label="Search buttons" />
+        <button class="mode-button" id="sort-toggle" data-order="newest" title="Sorted: newest first" aria-label="Sort order">
+            ↓ Newest
+        </button>
+        <button class="mode-button mode-button-icon" id="import-btn" title="Import from JSON" aria-label="Import from JSON">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M224 136v72a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-72"/><line x1="128" y1="160" x2="128" y2="40"/><polyline points="88 80 128 40 168 80"/></svg>
+        </button>
+        <input type="file" id="import-file-input" accept=".json" style="display:none" />
+        <button class="mode-button mode-button-icon" id="export-btn" title="Export as JSON" aria-label="Export as JSON">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M224 136v72a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-72"/><line x1="128" y1="40" x2="128" y2="160"/><polyline points="88 120 128 160 168 120"/></svg>
+        </button>
+    </div>
     <div id="stolen-buttons"></div>
+    <p id="no-results" class="hidden">No buttons match your search.</p>
     <script src='stolen-buttons.js'></script>
 </body>
 </html>

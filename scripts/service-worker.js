@@ -10,7 +10,49 @@ const UPLOAD = 'upload';
 const OFFSCREEN_DOCUMENT_PATH = '/offscreen/offscreen.html';
 let isDark = false;
 
+// --- Badge counter ---
+const setBadge = (buttons) => {
+    const count = (buttons || []).filter(b => !b.hidden).length;
+    chrome.action.setBadgeText({ text: count > 0 ? String(count) : '' });
+    chrome.action.setBadgeBackgroundColor({ color: '#FF6B35' });
+};
+
+// Initialize badge when the service worker starts
+(async () => {
+    const { buttons } = await chrome.storage.local.get(BUTTONS);
+    setBadge(buttons);
+})();
+
+// Keep badge in sync whenever the buttons array changes
+chrome.storage.onChanged.addListener((obj) => {
+    if (obj.hasOwnProperty(BUTTONS)) {
+        setBadge(obj[BUTTONS].newValue);
+    }
+});
+
+// --- Context menu: right-click to steal ---
+const createContextMenu = () => {
+    chrome.contextMenus.removeAll(() => {
+        chrome.contextMenus.create({
+            id: 'steal-button',
+            title: 'Steal this button',
+            contexts: ['all'],
+        });
+    });
+};
+createContextMenu();
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+    if (info.menuItemId !== 'steal-button') return;
+    // Content script only runs on http/https pages — skip anything else silently
+    if (!tab || !tab.url || !tab.url.startsWith('http')) return;
+    chrome.tabs.sendMessage(tab.id, { type: 'steal-right-clicked' }).catch(() => {
+        // Content script not yet injected on this page — ignore
+    });
+});
+
 chrome.runtime.onInstalled.addListener(async ({ reason }) => {
+    createContextMenu();
     switch (reason) {
         case 'install':
             chrome.storage.local.set({

@@ -468,4 +468,55 @@
     colorSchemeDispatcher.addEventListener('change', e => {
         sendColorModeToBackground(e.matches);
     });
+
+    // ── Right-click to steal a specific element ────────────────────
+    let lastRightClickedEl = null;
+    document.addEventListener('contextmenu', (e) => {
+        lastRightClickedEl = e.target;
+    });
+
+    const stealSpecificButton = async (el) => {
+        if (!el) return;
+        let { buttons, maximum } = await chrome.storage.local.get(['buttons', 'maximum']);
+        const text = (el.innerText || el.textContent || '').trim();
+        const cloneEl = el.cloneNode(true);
+        cloneEl.style.margin = '0';
+        stripCSS(cloneEl, el);
+        if (cloneEl.style.position === 'absolute') cloneEl.style.position = 'relative';
+        if (el.tagName.toLowerCase() === 'a') {
+            cloneEl.removeAttribute('href');
+        } else {
+            cloneEl.removeAttribute('onclick');
+        }
+        const code = cloneEl.outerHTML
+            .replaceAll('rgb(255, 255, 255)', '#FFF')
+            .replaceAll('rgb(0, 0, 0)', '#000')
+            .replaceAll('rgba(0, 0, 0, 0)', 'transparent');
+        let id = 0;
+        if (buttons.length > 0 && buttons[0].hasOwnProperty('id')) {
+            id = buttons[0].id + 1;
+        }
+        const button = {
+            id,
+            name: `"${text || '?'}" from ${window.location.hostname}`,
+            code,
+            source: window.location.origin + window.location.pathname,
+            text: text || '?',
+            stolenAt: (new Date()).toUTCString(),
+        };
+        buttons.unshift(button);
+        while (buttons.length >= maximum) buttons.pop();
+        const { upload } = await chrome.storage.local.get('upload');
+        upload.unshift(button);
+        chrome.storage.local.set({ buttons });
+        chrome.storage.local.set({ upload });
+    };
+
+    chrome.runtime.onMessage.addListener((message) => {
+        if (message.type !== 'steal-right-clicked') return;
+        const target = lastRightClickedEl
+            ? (lastRightClickedEl.closest('button, a') || lastRightClickedEl)
+            : null;
+        stealSpecificButton(target);
+    });
 })();
