@@ -11,4 +11,4 @@ Button Yoinker works locally and **doesn’t send data anywhere**, so your data 
 
 ----
 
-This extension is an enhancment to [Anatoly Zenkov](https://github.com/anatolyzenkov)'s original prokect [Button Stealer](https://github.com/anatolyzenkov/button-stealer). Thanks to him for the great idea and original code!
+This extension is an enhancment to [Anatoly Zenkov](https://github.com/anatolyzenkov)'s original project [Button Stealer](https://github.com/anatolyzenkov/button-stealer). Thanks to him for the great idea and original code!

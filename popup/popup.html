@@ -24,7 +24,8 @@
         <div id="dashboard" class="wrapper">
             <h1>Button Stealer</h1>
             <p class="grow">Do your usual online stuff and watch the collection of your stolen buttons grow.</p>
-            <a href="/stolen-buttons/stolen-buttons.html" role="button" target="_blank" class="button label">Your Stash</a>
+            <a href="/stolen-buttons/stolen-buttons.html" role="button" target="_blank" class="button label">Your
+                Stash</a>
             <div id="footer">
                 <p id="stat" class="label">…</p>
             </div>
@@ -32,32 +33,39 @@
     </div>
     <div id="slider-container">
         <div class="navbar">
-            <h2 id="slider-header">Header</h2>
+            <h2 id="slider-header">Settings</h2>
         </div>
         <div id="settings" class="view hidden">
             <div class="wrapper settings">
                 <form id="ignore-form">
                     <h3>Ignore List</h3>
-                    <input class="label" placeholder="example.com *.example.com" id="ignore" name="ignore"/>
+                    <input class="label" placeholder="example.com *.example.com" id="ignore" name="ignore" />
                 </form>
                 <form id="maximum-form">
                     <h3>Maximum Buttons <span id="maximumValue"></span></h3>
-                    <input class="label" type="range" min="100" max="1000" step="100" id="maximum" name="maximum" />
+                    <input class="label" type="range" min="100" max="10000" step="100" id="maximum" name="maximum" />
                 </form>
-                
+
                 <form id="contentful-form">
                     <h3>Contentful Settings</h3>
-                    <input class="label" type="password" id="contentManagementApiKey" name="contentManagementApiKey" placeholder="Content Management API Key"></input>
-                    <input class="label" type="password" id="contentDeliveryApiKey" name="contentDeliveryApiKey" placeholder="Content Delivery API Key"></input>
+                    <input class="label" type="password" id="contentManagementApiKey" name="contentManagementApiKey"
+                        placeholder="Content Management API Key"></input>
+                    <input class="label" type="password" id="contentDeliveryApiKey" name="contentDeliveryApiKey"
+                        placeholder="Content Delivery API Key"></input>
                     <input class="label" type="password" id="spaceId" name="spaceId" placeholder="Space ID"></input>
-                    <input class="label" type="text" id="contentTypeId" name="contentTypeId" placeholder="Content Type ID"></input>
+                    <input class="label" type="text" id="contentTypeId" name="contentTypeId"
+                        placeholder="Content Type ID"></input>
                     <p>These settings are for author use only.</p>
                 </form>
                 <a id="remove-all" role="button" class="button critical label">Remove All Buttons</a>
                 <div id="info">
-                    <p id="version"><a target="_blank" href="https://chromewebstore.google.com/detail/button-stealer/iiikidmnimlpahbeknmkeonmemajpccj" id="version-label"></a></p>
-                    <p id="about"><a target="_blank" href="https://anatolyzenkov.com/stolen-buttons/button-stealer">About</a></p>
-                    <p id="github"><a target="_blank" href="https://github.com/anatolyzenkov/button-stealer">GitHub</a></p>
+                    <p id="version"><a target="_blank"
+                            href="https://chromewebstore.google.com/detail/button-stealer/iiikidmnimlpahbeknmkeonmemajpccj"
+                            id="version-label"></a></p>
+                    <p id="about"><a target="_blank"
+                            href="https://anatolyzenkov.com/stolen-buttons/button-stealer">About</a></p>
+                    <p id="github"><a target="_blank" href="https://github.com/anatolyzenkov/button-stealer">GitHub</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -67,6 +75,7 @@
         <div class="dash dash-1"></div>
         <div class="dash dash-2"></div>
     </div>
+    <script src='/scripts/i18n.js'></script>
     <script src='popup.js'></script>
 </body>
 

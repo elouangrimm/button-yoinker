@@ -11,10 +11,12 @@ html {
   --gap: 16px;
   --color-foreground: var(--color-black);
   --color-background: var(--color-white);
-  
+  --color-link: var(--color-violet);
+
   @media (prefers-color-scheme: dark) {
     --color-foreground: var(--color-white);
     --color-background: var(--color-black);
+    --color-link: var(--color-orange);
   }
 }
 
@@ -101,7 +103,7 @@ p {
 }
 
 .button.vivid {
-  background-color: var(--color-violet);
+  background-color: var(--color-link);
   padding: 32px 44px 32px 32px;
   display: flex;
   align-items: center;
@@ -115,7 +117,8 @@ p {
 
 .button.vivid .icon {
   background-color: var(--color-background);
-  width: 24px; height: 24px;
+  width: 24px;
+  height: 24px;
   border-radius: 12px;
 }
 
@@ -130,6 +133,7 @@ p {
 .button.vivid .arrow path {
   transition: all .2s;
 }
+
 .button.vivid:hover .arrow path {
   stroke: var(--color-background);
 }
@@ -140,7 +144,8 @@ p {
 }
 
 .button.vivid .icon svg {
-  width: 24px; height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .button.vivid.icon svg path,
@@ -166,8 +171,7 @@ p {
 }
 
 #main,
-#slider-container
-{
+#slider-container {
   width: var(--width);
   height: var(--height);
   position: fixed;
@@ -198,8 +202,7 @@ p {
   color: inherit;
 }
 
-.slide-container #slider-container
- {
+.slide-container #slider-container {
   left: 0;
 }
 
@@ -296,7 +299,7 @@ input:focus {
 }
 
 #switch .dash {
-  background-color: var(--color-white);
+  background-color: var(--color-black);
   height: 2px;
   width: 32px;
   transition: all .2s ease-in-out;
@@ -340,15 +343,15 @@ input:focus {
 }
 
 #buttons {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    transform: scale(1.5);
-    background-color: var(--color-orange);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  transform: scale(1.5);
+  background-color: var(--color-orange);
 }
 
 #buttons .button-wrapper {
-    padding: 2px;
+  padding: 2px;
 }
 
 .icon-button {
@@ -366,13 +369,13 @@ input:focus {
 }
 
 #info {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    text-transform: uppercase;
-  }
-  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-transform: uppercase;
+}
+
 #info a {
-    text-decoration: none;
-    color: var(--color-violet);
+  text-decoration: none;
+  color: var(--color-link);
 }
