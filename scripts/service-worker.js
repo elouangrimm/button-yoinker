@@ -89,7 +89,9 @@ chrome.storage.onChanged.addListener(async (obj) => {
     switch (true) {
         case obj.hasOwnProperty(MAXIMUM):
             const { buttons } = await chrome.storage.local.get(BUTTONS);
-            while (buttons.length >= obj.maximum.newValue) buttons.pop();
+            const parsedMaximum = Number.parseInt(obj.maximum.newValue, 10);
+            const maximum = Number.isNaN(parsedMaximum) ? 200 : Math.min(10000, Math.max(100, parsedMaximum));
+            while (buttons.length > maximum) buttons.pop();
             chrome.storage.local.set({ 'buttons': buttons });
             break;
         case obj.hasOwnProperty(UPLOAD):
@@ -151,7 +153,9 @@ const handleMessages = async (message) => {
             closeOffscreenDocument();
             break;
         case 'update-maximum':
-            chrome.storage.local.set({ maximum: parseInt(message.value) });
+            const parsedMaximum = Number.parseInt(message.value, 10);
+            const maximum = Number.isNaN(parsedMaximum) ? 200 : Math.min(10000, Math.max(100, parsedMaximum));
+            chrome.storage.local.set({ maximum });
             break;
         case 'update-contentful':
             chrome.storage.local.set({ contentful: JSON.parse(message.value) });

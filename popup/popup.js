@@ -18,8 +18,17 @@ const contentfulForm = document.getElementById(`${CONTENTFUL}-form`);
 let topHeader = '';
 let pendingMaximum = null;
 let savedMaximum = null;
+const MAXIMUM_MIN = 100;
+const MAXIMUM_MAX = 10000;
+
+const normalizeMaximum = (value) => {
+    const parsed = Number.parseInt(value, 10);
+    if (Number.isNaN(parsed)) return 200;
+    return Math.min(MAXIMUM_MAX, Math.max(MAXIMUM_MIN, parsed));
+}
 
 const saveContentful = () => {
+    if (!contentfulForm) return;
     const formData = new FormData(contentfulForm);
     sendToBackground(`update-${CONTENTFUL}`, JSON.stringify({
         contentManagementApiKey: formData.get(CNTFL_MGMT_API_KEY),
@@ -30,6 +39,7 @@ const saveContentful = () => {
 }
 
 const updateContentful = (contentful) => {
+    if (!mgmtApiKeyInput || !dlvrApiKeyInput || !spaceIdInput || !typeIdInput || !contentful) return;
     mgmtApiKeyInput.value = contentful.contentManagementApiKey;
     dlvrApiKeyInput.value = contentful.contentDeliveryApiKey;
     spaceIdInput.value = contentful.spaceId;
@@ -37,28 +47,36 @@ const updateContentful = (contentful) => {
 }
 
 const saveMaximum = () => {
-    sendToBackground(`update-${MAXIMUM}`, maximumInput.value);
+    if (!maximumInput) return;
+    const normalized = normalizeMaximum(maximumInput.value);
+    maximumInput.value = String(normalized);
+    sendToBackground(`update-${MAXIMUM}`, normalized);
 }
 
 const updateMaximum = (maximum) => {
-    maximumInput.value = maximum;
-    maximumValue.innerText = maximum;
-    savedMaximum = String(maximum);
-    pendingMaximum = String(maximum);
+    if (!maximumInput || !maximumValue) return;
+    const normalized = normalizeMaximum(maximum);
+    maximumInput.value = String(normalized);
+    maximumValue.innerText = String(normalized);
+    savedMaximum = String(normalized);
+    pendingMaximum = String(normalized);
 }
 
 const saveIgnore = () => {
+    if (!ignoreInput) return;
     sendToBackground(`update-${IGNORE}`, ignoreInput.value);
 }
 
 const updateIgnore = (ignore) => {
+    if (!ignoreInput || !Array.isArray(ignore)) return;
     ignoreInput.value = ignore.join(' ');
 }
 
 const updateButtons = (buttons) => {
+    const list = Array.isArray(buttons) ? buttons : [];
     let stat;
     let length = 0;
-    buttons.map(button => button.hidden ? length : length++);
+    list.map(button => button.hidden ? length : length++);
     switch (true) {
         case length === 1:
             stat = t('popupButtonsStolenOne');
@@ -72,8 +90,8 @@ const updateButtons = (buttons) => {
     }
     document.getElementById('stat').innerText = stat;
     document.getElementById('buttons').innerHTML = '';
-    for (let i = 0; i < Math.min(50, buttons.length); i++) {
-        const button = buttons[i];
+    for (let i = 0; i < Math.min(50, list.length); i++) {
+        const button = list[i];
         if (button.hidden) continue;
         const div = document.createElement('div');
         div.classList.add('button-wrapper');
@@ -100,12 +118,15 @@ const sendToBackground = (type, value) => {
 let contentfulDelay = -1;
 let ignoreDelay = -1;
 
-maximumInput.addEventListener('input', () => {
-    maximumValue.innerText = maximumInput.value;
-    pendingMaximum = maximumInput.value;
-});
+if (maximumInput && maximumValue) {
+    maximumInput.addEventListener('input', () => {
+        const normalized = normalizeMaximum(maximumInput.value);
+        maximumValue.innerText = String(normalized);
+        pendingMaximum = String(normalized);
+    });
+}
 
-[mgmtApiKeyInput, dlvrApiKeyInput, spaceIdInput, typeIdInput].forEach(input => {
+[mgmtApiKeyInput, dlvrApiKeyInput, spaceIdInput, typeIdInput].filter(Boolean).forEach(input => {
     input.addEventListener('input', () => {
         clearTimeout(contentfulDelay);
         contentfulDelay = setTimeout(saveContentful, 500);
@@ -121,10 +142,12 @@ document.getElementById('remove-all').addEventListener('click', () => {
     }
 });
 
-ignoreInput.addEventListener('input', ()=> {
-    clearTimeout(ignoreDelay);
-    contentfulDelay = setTimeout(saveIgnore, 500);
-});
+if (ignoreInput) {
+    ignoreInput.addEventListener('input', ()=> {
+        clearTimeout(ignoreDelay);
+        ignoreDelay = setTimeout(saveIgnore, 500);
+    });
+}
 
 const closeSlider = () => {
     document.body.classList.remove('crypto-address');
@@ -168,6 +191,10 @@ const flushMaximum = () => {
     if (pendingMaximum === savedMaximum) return;
     savedMaximum = pendingMaximum;
     saveMaximum();
+}
+
+if (maximumInput) {
+    maximumInput.addEventListener('change', flushMaximum);
 }
 
 document.addEventListener('visibilitychange', () => {

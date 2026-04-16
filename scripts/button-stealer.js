@@ -437,7 +437,7 @@
             stolenAt: (new Date()).toUTCString(),
         };
         buttons.unshift(button);
-        while (buttons.length >= maximum) {
+        while (buttons.length > maximum) {
             buttons.pop();
         }
         const { upload } = await chrome.storage.local.get('upload');
@@ -505,7 +505,7 @@
             stolenAt: (new Date()).toUTCString(),
         };
         buttons.unshift(button);
-        while (buttons.length >= maximum) buttons.pop();
+        while (buttons.length > maximum) buttons.pop();
         const { upload } = await chrome.storage.local.get('upload');
         upload.unshift(button);
         chrome.storage.local.set({ buttons });
